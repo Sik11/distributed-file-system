@@ -58,67 +58,66 @@ Communication uses a custom text-based protocol over TCP:
 ### Compile
 
 ```bash
-javac -cp .:client.jar *.java
+mkdir -p out && javac -cp lib/client.jar -d out $(find src -name '*.java' | sort) examples/*.java tests/*.java
 ```
 
 ### Start the Controller
 
 ```bash
-java Controller <cport> <replication_factor> <timeout_ms> <rebalance_period_s>
+java -cp lib/client.jar:out dfs.controller.Controller <cport> <replication_factor> <timeout_ms> <rebalance_period_s>
 ```
 
 Example:
 
 ```bash
-java Controller 12345 3 2000 10
+java -cp lib/client.jar:out dfs.controller.Controller 12345 3 2000 10
 ```
 
 ### Start Dstores (start R or more instances)
 
 ```bash
-java Dstore <port> <controller_port> <timeout_ms> <file_folder>
+java -cp lib/client.jar:out dfs.dstore.Dstore <port> <controller_port> <timeout_ms> <file_folder>
 ```
 
 Example (start 3 Dstores):
 
 ```bash
-java Dstore 12346 12345 2000 dstore1
-java Dstore 12347 12345 2000 dstore2
-java Dstore 12348 12345 2000 dstore3
+java -cp lib/client.jar:out dfs.dstore.Dstore 12346 12345 2000 var/dstores/dstore1
+java -cp lib/client.jar:out dfs.dstore.Dstore 12347 12345 2000 var/dstores/dstore2
+java -cp lib/client.jar:out dfs.dstore.Dstore 12348 12345 2000 var/dstores/dstore3
 ```
 
 ### Start a Client
 
 ```bash
-java -cp .:client.jar ClientMain <controller_port> <timeout_ms>
+java -cp lib/client.jar:out ClientMain <controller_port> <timeout_ms>
 ```
 
 Example:
 
 ```bash
-java -cp .:client.jar ClientMain 12345 2000
+java -cp lib/client.jar:out ClientMain 12345 2000
 ```
 
-## File Structure
+### Run the Concurrency Smoke Test
 
-| File | Description |
-|------|-------------|
-| `Controller.java` | Central controller - accepts connections, orchestrates operations, runs rebalancing |
-| `Dstore.java` | Data store node - stores files on disk, responds to Controller commands |
-| `Connection.java` | Abstract base class for TCP socket connections with message handling |
-| `ControllerClientConnection.java` | Handles client-to-controller communication |
-| `ControllerDstoreConnection.java` | Handles controller-to-dstore communication |
-| `DstoreClientConnection.java` | Handles client/controller-to-dstore communication |
-| `Index.java` | File index with state management and acknowledgement tracking |
-| `FileInformation.java` | Data class for file metadata (name, size, state, storing Dstores) |
-| `Protocol.java` | Protocol message constants |
-| `Rebalance.java` | Standalone rebalance algorithm implementation |
-| `Logger.java` | Abstract logging base class |
-| `ControllerLogger.java` | Controller-specific logging |
-| `DstoreLogger.java` | Dstore-specific logging |
-| `ClientMain.java` | Example client for testing (requires `client.jar`) |
-| `ClientTest1.java` | Additional test client (requires `client.jar`) |
-| `client.jar` | University-provided client library |
+Start the controller and at least 3 Dstores first, then run:
+
+```bash
+java -cp lib/client.jar:out ConcurrencySmokeTest clients-only 12345
+```
+
+## Project Structure
+
+- `src/dfs/controller/` - Controller entry point and controller-side connection handling
+- `src/dfs/dstore/` - Dstore entry point and Dstore-side connection handling
+- `src/dfs/core/` - Shared protocol, indexing, rebalancing, and base connection classes
+- `src/dfs/logging/` - Internal logging infrastructure
+- `examples/` - Example client programs for manual testing
+- `tests/` - End-to-end verification utilities, including the concurrency smoke test
+- `lib/` - External client library dependency
+- `config/` - Auxiliary configuration files such as `my_policy.policy`
+- `var/` - Recommended runtime location for Dstore folders, downloads, and upload fixtures
 
 ## License
 

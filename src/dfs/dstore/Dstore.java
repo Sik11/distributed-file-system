@@ -1,3 +1,8 @@
+package dfs.dstore;
+
+import dfs.logging.DstoreLogger;
+import dfs.logging.Logger;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -30,7 +35,7 @@ public class Dstore extends ServerSocket{
     this.timeout = timeout;
     this.filefolder = filefolder;
     this.port = port;
-    dsocket = new Socket(InetAddress.getLocalHost(), cport);
+    dsocket = new Socket(InetAddress.getLoopbackAddress(), cport);
     this.fileSet = ConcurrentHashMap.newKeySet();
 
     initialiseFolder();
@@ -137,4 +142,3 @@ public Set<String> getFileSet() {
 
 
 }
-

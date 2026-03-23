@@ -1,11 +1,13 @@
+package dfs.core;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
 public abstract class Connection implements Runnable {
-  Socket input;
-  Socket output;
+  protected Socket input;
+  protected Socket output;
 
   BufferedReader bufferedReader;
   PrintWriter printWriter;

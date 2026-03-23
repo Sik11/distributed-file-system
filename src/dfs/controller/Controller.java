@@ -1,3 +1,12 @@
+package dfs.controller;
+
+import dfs.core.Index;
+import dfs.core.Protocol;
+import dfs.core.Rebalance;
+import dfs.core.SenderDstoreInfo;
+import dfs.logging.ControllerLogger;
+import dfs.logging.Logger;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
@@ -20,40 +29,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.stream.Collectors;
-
-class SenderDstoreInfo {
-
-  private int senderDstore;
-  private String file;
-  private int destinationDstore;
-
-  public SenderDstoreInfo(int senderDstore, String file, int destinationDstore) {
-    this.senderDstore = senderDstore;
-    this.file = file;
-    this.destinationDstore = destinationDstore;
-  }
-
-  public int getSenderDstore() {
-    return senderDstore;
-  }
-
-  public String getFile() {
-    return file;
-  }
-
-  public int getDestinationDstore() {
-    return destinationDstore;
-  }
-
-  @Override
-  public String toString() {
-    return "SenderDstoreInfo{" +
-        "senderDstore=" + senderDstore +
-        ", file='" + file + '\'' +
-        ", destinationDstore=" + destinationDstore +
-        '}';
-  }
-}
 
 public class Controller extends ServerSocket {
 
@@ -116,7 +91,7 @@ public class Controller extends ServerSocket {
             if (parts.length > 0) {
               if (parts[0].equals("JOIN")) {
                 Integer port = Integer.parseInt(parts[1]);
-                Socket dstore = new Socket(InetAddress.getLocalHost(), port);
+                Socket dstore = new Socket(InetAddress.getLoopbackAddress(), port);
                 ControllerDstoreConnection dstoreConnection = new ControllerDstoreConnection(
                     Controller.this,socket, port, message);
                 addDstoreConnection(dstoreConnection);

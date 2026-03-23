@@ -1,9 +1,11 @@
+package dfs.core;
+
 import java.net.Socket;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-class FileInformation {
+public class FileInformation {
 
   private Set<Socket> dstores = ConcurrentHashMap.newKeySet(); // List of
   // DStores

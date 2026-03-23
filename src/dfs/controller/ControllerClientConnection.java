@@ -1,3 +1,9 @@
+package dfs.controller;
+
+import dfs.core.Connection;
+import dfs.core.Protocol;
+import dfs.logging.ControllerLogger;
+
 import java.net.Socket;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -105,4 +111,3 @@ public class ControllerClientConnection extends Connection{
 
 
 }
-

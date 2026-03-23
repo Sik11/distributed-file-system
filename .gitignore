@@ -6,7 +6,7 @@
 
 # Package files
 *.jar
-!client.jar
+!lib/client.jar
 *.war
 *.zip
 *.tar.gz
@@ -26,6 +26,4 @@ build/
 target/
 
 # Runtime directories
-downloads/
-dstore*/
-to_store/
+var/

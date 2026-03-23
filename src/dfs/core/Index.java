@@ -1,3 +1,9 @@
+package dfs.core;
+
+import dfs.controller.Controller;
+import dfs.controller.ControllerDstoreConnection;
+import dfs.logging.ControllerLogger;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;

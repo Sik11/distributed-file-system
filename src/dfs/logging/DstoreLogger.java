@@ -1,3 +1,5 @@
+package dfs.logging;
+
 import java.io.IOException;
 
 public class DstoreLogger extends Logger {

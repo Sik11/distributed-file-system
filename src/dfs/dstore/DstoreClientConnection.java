@@ -1,3 +1,9 @@
+package dfs.dstore;
+
+import dfs.core.Connection;
+import dfs.core.Protocol;
+import dfs.logging.DstoreLogger;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

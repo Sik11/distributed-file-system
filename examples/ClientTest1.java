@@ -7,15 +7,15 @@ public class ClientTest1 {
     final int cport = Integer.parseInt(args[0]);
     int timeout = Integer.parseInt(args[1]);
 
-    // this client expects a 'downloads' folder in the current directory; all files loaded from the store will be stored in this folder
-    File downloadFolder = new File("downloads");
+    // this client expects a 'var/downloads' folder in the current directory; all files loaded from the store will be stored in this folder
+    File downloadFolder = new File("var/downloads");
     if (!downloadFolder.exists())
-      if (!downloadFolder.mkdir())
+      if (!downloadFolder.mkdirs())
         throw new RuntimeException("Cannot create download folder (folder absolute path: "
             + downloadFolder.getAbsolutePath() + ")");
 
-    // this client expects a 'to_store' folder in the current directory; all files to be stored in the store will be collected from this folder
-    File uploadFolder = new File("to_store");
+    // this client expects a 'var/to_store' folder in the current directory; all files to be stored in the store will be collected from this folder
+    File uploadFolder = new File("var/to_store");
     if (!uploadFolder.exists())
       throw new RuntimeException("to_store folder does not exist");
 

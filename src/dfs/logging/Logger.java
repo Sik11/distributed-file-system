@@ -1,9 +1,14 @@
+package dfs.logging;
+
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public abstract class Logger {
    protected static final String ERROR_LOG_MSG_SUFFIX = "ERROR: ";
+   private static final Path LOG_DIR = Path.of("var", "logs");
    protected final LoggingType loggingType;
    protected PrintStream ps;
 
@@ -15,7 +20,9 @@ public abstract class Logger {
 
    protected synchronized PrintStream getPrintStream() throws IOException {
       if (this.ps == null) {
-         this.ps = new PrintStream(this.getLogFileSuffix() + "_" + System.currentTimeMillis() + ".log");
+         Files.createDirectories(LOG_DIR);
+         this.ps = new PrintStream(LOG_DIR.resolve(
+             this.getLogFileSuffix() + "_" + System.currentTimeMillis() + ".log").toFile());
       }
 
       return this.ps;
@@ -29,7 +36,7 @@ public abstract class Logger {
       return this.loggingType == LoggingType.ON_TERMINAL_ONLY || this.loggingType == LoggingType.ON_FILE_AND_TERMINAL;
    }
 
-   protected void log(String message) {
+   public void log(String message) {
       if (this.logToFile()) {
          try {
             this.getPrintStream().println(message);
